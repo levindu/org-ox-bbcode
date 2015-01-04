@@ -1,0 +1,53 @@
+Can you please explain the Discuz! Code to me?
+You can use BB Code, a simplified version of HTML, in your posts to create certain effects.
+
+[b]Bold Text Abc[/b]   would produce: Bold Text Abc (Bold Text)
+
+[i]Italicized Text Abc[/i]   would produce: Italicized Text Abc (Italicized Text)
+
+[u]Underlined Text Abc[/u]   would produce: Underlined Text Abc (Underlined Text)
+
+[color=red]Text Abc in Color Red[/color]   would produce: Text Abc in Color Red (Change Color of Text)
+
+[size=3]Text Abc in Size 3[/size]   would produce: Text Abc in Size 3 (Change Size of Text)
+
+[font=Tahoma]Text Abc of Tahoma[/font]   would produce: Text Abc of Tahoma (Change Font of Text)
+
+[align=Center]This is centered[/align]   would produce: 
+This is centered
+(Centered Text)
+
+[url]http://www.comsenz.com[/url]   would produce: http://www.comsenz.com (Hyperlink)
+
+[url=http://www.Discuz.net]Discuz! Board[/url]   would produce: Discuz! Board (Hyperlink)
+
+[email]myname@mydomain.com[/email]   would produce: myname@mydomain.com (E-Mail Hyperlink)
+
+[email=support@discuz.net]Discuz! Technical Support[/email]   would produce: Discuz! Technical Support (E-Mail Hyperlink)
+
+[quote]Discuz! Board is a bulletin board system developed by Comsenz Inc.[/quote]   (Quoted Text, similar code [code][/code] for quote program codes)
+
+[hide]Hidden Text[/hide]   (Hide Text to Visitors Unless Replying this Thread)
+
+[hide=20]Hidden Text[/hide]   (Hidden Text According Visitor's Credits
+
+[list]
+[*]first bulleted item
+[*]second bulleted item
+[*]third bulleted item
+[/list]   (Lists)
+
+[qq]688888[/qq]   (Display "QQ Status", users can click this icon to chat with him/her)
+
+
+Below codes are available only when [img] code is allowed
+
+[img]http://wl.igg.com/forum/images/default/logo.gif[/img]   (Image)
+would produce: 
+ 
+
+[img=88,31]http://wl.igg.com/forum/images/logo.gif[/img]  (Resized Image)
+would produce: 
+ 
+
+[swf]http://wl.igg.com/forum/images/banner.swf[/swf]   (Shockwave-flash)
