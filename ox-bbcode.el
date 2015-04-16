@@ -108,17 +108,17 @@
   :menu-entry
   '(?b "Export to BBCODE"
        ((?b "As BBCODE buffer" org-bbcode-export-as-bbcode)
-	(?f "As BBCODE file" org-bbcode-export-to-bbcode)
-	(?o "As BBCODE file and open"
-	    (lambda (a s v b)
-	      (if a (org-bbcode-export-to-bbcode t s v b)
-		(org-open-file (org-bbcode-export-to-bbcode nil s v b)))))))
+        (?f "As BBCODE file" org-bbcode-export-to-bbcode)
+        (?o "As BBCODE file and open"
+            (lambda (a s v b)
+              (if a (org-bbcode-export-to-bbcode t s v b)
+                (org-open-file (org-bbcode-export-to-bbcode nil s v b)))))))
   :filters-alist '((:filter-headline . org-bbcode-filter-headline-blank-lines)
-		   (:filter-parse-tree org-bbcode-filter-paragraph-spacing
-				       org-bbcode-filter-comment-spacing
-				       org-bbcode-filter-misc-spacing)
-		   (:filter-section . org-bbcode-filter-headline-blank-lines)
-		   )
+                   (:filter-parse-tree org-bbcode-filter-paragraph-spacing
+                                       org-bbcode-filter-comment-spacing
+                                       org-bbcode-filter-misc-spacing)
+                   (:filter-section . org-bbcode-filter-headline-blank-lines)
+                   )
   :options-alist '((:bbcode-charset nil nil 'utf-8)))
 
 
@@ -154,7 +154,7 @@ If no association can be found for a given markup, text will be
 returned as-is."
   :group 'org-export-bbcode
   :type '(alist :key-type (symbol :tag "Markup type")
-		:value-type (string :tag "Format string"))
+                :value-type (string :tag "Format string"))
   :options '(bold code italic strike-through underline verbatim))
 
 (defcustom org-bbcode-headline-spacing '(1 . 2)
@@ -171,10 +171,10 @@ original Org buffer at the same place."
   :version "24.4"
   :package-version '(Org . "8.0")
   :type '(choice
-	  (const :tag "Replicate original spacing" nil)
-	  (cons :tag "Set an uniform spacing"
-		(integer :tag "Number of blank lines before contents")
-		(integer :tag "Number of blank lines after contents"))))
+          (const :tag "Replicate original spacing" nil)
+          (cons :tag "Set an uniform spacing"
+                (integer :tag "Number of blank lines before contents")
+                (integer :tag "Number of blank lines after contents"))))
 
 (defcustom org-bbcode-indented-line-width 'auto
   "Additional indentation width for the first line in a paragraph.
@@ -185,8 +185,8 @@ indentation from original document."
   :version "24.4"
   :package-version '(Org . "8.0")
   :type '(choice
-	  (integer :tag "Number of white spaces characters")
-	  (const :tag "Preserve original width" auto)))
+          (integer :tag "Number of white spaces characters")
+          (const :tag "Preserve original width" auto)))
 
 (defcustom org-bbcode-paragraph-spacing 'auto
   "Number of white lines between paragraphs.
@@ -197,8 +197,8 @@ the same number of blank lines as in the original document."
   :version "24.4"
   :package-version '(Org . "8.0")
   :type '(choice
-	  (integer :tag "Number of blank lines")
-	  (const :tag "Preserve original spacing" auto)))
+          (integer :tag "Number of blank lines")
+          (const :tag "Preserve original spacing" auto)))
 
 (defcustom org-bbcode-format-drawer-function nil
   "Function called to format a drawer in BBCODE.
@@ -245,7 +245,7 @@ nil to ignore the inline task."
 ;;; Internal Functions
 
 (defun org-bbcode--build-title
-  (element info text-width &optional underline notags toc)
+    (element info text-width &optional underline notags toc)
   "Format ELEMENT title and return it.
 
 ELEMENT is either an `headline' or `inlinetask' element.  INFO is
@@ -262,48 +262,48 @@ the title.
 When optional argument TOC is non-nil, use optional title if
 possible.  It doesn't apply to `inlinetask' elements."
   (let* ((headlinep (eq (org-element-type element) 'headline))
-	 (level (org-export-get-relative-level element info))
-	 (font-size (if (> level 3) 4 (- 7 level)))
-	 (numbers
-	  ;; Numbering is specific to headlines.
-	  (and headlinep (org-export-numbered-headline-p element info)
-	       ;; All tests passed: build numbering string.
-	       (concat
-		(mapconcat
-		 'number-to-string
-		 (org-export-get-headline-number element info) ".")
-		" ")))
-	 (text
-	  (org-trim
-	   (org-export-data
-	    (if (and toc headlinep) (org-export-get-alt-title element info)
-	      (org-element-property :title element))
-	    info)))
-	 (todo
-	  (and (plist-get info :with-todo-keywords)
-	       (let ((todo (org-element-property :todo-keyword element)))
-		 (and todo (concat (org-export-data todo info) " ")))))
-	 (tags (and (not notags)
-		    (plist-get info :with-tags)
-		    (let ((tag-list (org-export-get-tags element info)))
-		      (and tag-list
-			   (format ":%s:"
-				   (mapconcat 'identity tag-list ":"))))))
-	 (priority
-	  (and (plist-get info :with-priority)
-	       (let ((char (org-element-property :priority element)))
-		 (and char (format "(#%c) " char)))))
-	 (first-part (concat (if toc "[b]" (format "[size=%d][b]" font-size))
-			     numbers todo priority text
-			     (if toc "[/b]" "[/b][/size]"))))
+         (level (org-export-get-relative-level element info))
+         (font-size (if (> level 3) 4 (- 7 level)))
+         (numbers
+          ;; Numbering is specific to headlines.
+          (and headlinep (org-export-numbered-headline-p element info)
+               ;; All tests passed: build numbering string.
+               (concat
+                (mapconcat
+                 'number-to-string
+                 (org-export-get-headline-number element info) ".")
+                " ")))
+         (text
+          (org-trim
+           (org-export-data
+            (if (and toc headlinep) (org-export-get-alt-title element info)
+              (org-element-property :title element))
+            info)))
+         (todo
+          (and (plist-get info :with-todo-keywords)
+               (let ((todo (org-element-property :todo-keyword element)))
+                 (and todo (concat (org-export-data todo info) " ")))))
+         (tags (and (not notags)
+                    (plist-get info :with-tags)
+                    (let ((tag-list (org-export-get-tags element info)))
+                      (and tag-list
+                           (format ":%s:"
+                                   (mapconcat 'identity tag-list ":"))))))
+         (priority
+          (and (plist-get info :with-priority)
+               (let ((char (org-element-property :priority element)))
+                 (and char (format "(#%c) " char)))))
+         (first-part (concat (if toc "[b]" (format "[size=%d][b]" font-size))
+                             numbers todo priority text
+                             (if toc "[/b]" "[/b][/size]"))))
     (concat
      first-part
      ;; Align tags, if any.
      (when tags
        (format
-	(format " %%%ds"
-		(max (- text-width  (1+ (length first-part))) (length tags)))
-	tags))
+        (format " %%%ds"
+                (max (- text-width  (1+ (length first-part))) (length tags)))
+        tags))
      )))
 
 (defun org-bbcode--has-caption-p (element info)
@@ -325,18 +325,18 @@ caption keyword."
       ;; Get sequence number of current src-block among every
       ;; src-block with a caption.
       (let ((reference
-	     (org-export-get-ordinal
-	      element info nil 'org-bbcode--has-caption-p))
-	    (title-fmt (org-bbcode--translate
-			(case (org-element-type element)
-			  (table "Table %d:")
-			  (src-block "Listing %d:"))
-			info)))
-	(org-ascii--fill-string
-	 (concat (format title-fmt reference)
-		 " "
-		 (org-export-data caption info))
-	 (org-ascii--current-text-width element info) info)))))
+             (org-export-get-ordinal
+              element info nil 'org-bbcode--has-caption-p))
+            (title-fmt (org-bbcode--translate
+                        (case (org-element-type element)
+                          (table "Table %d:")
+                          (src-block "Listing %d:"))
+                        info)))
+        (org-ascii--fill-string
+         (concat (format title-fmt reference)
+                 " "
+                 (org-export-data caption info))
+         (org-ascii--current-text-width element info) info)))))
 
 (defun org-bbcode--build-toc (info &optional n keyword)
   "Return a table of contents.
@@ -352,23 +352,23 @@ which the table of contents generation has been initiated."
     (concat
      title "\n"
      (make-string (length title)
-		  (if (eq (plist-get info :bbcode-charset) 'utf-8) ?─ ?_))
+                  (if (eq (plist-get info :bbcode-charset) 'utf-8) ?─ ?_))
      "\n"
      (let ((text-width
-	    (if keyword (org-ascii--current-text-width keyword info)
-	      org-bbcode-text-width)))
+            (if keyword (org-ascii--current-text-width keyword info)
+              org-bbcode-text-width)))
        (mapconcat
-	(lambda (headline)
-	  (let* ((level (org-export-get-relative-level headline info))
-		 (indent (* (1- level) 3)))
-	    (concat
-	     (unless (zerop indent) (concat (make-string (1- indent) ?.) " "))
-	     (org-bbcode--build-title
-	      headline info (- text-width indent) nil
-	      (or (not (plist-get info :with-tags))
-		  (eq (plist-get info :with-tags) 'not-in-toc))
-	      'toc))))
-	(org-export-collect-headlines info n) "\n")))))
+        (lambda (headline)
+          (let* ((level (org-export-get-relative-level headline info))
+                 (indent (* (1- level) 3)))
+            (concat
+             (unless (zerop indent) (concat (make-string (1- indent) ?.) " "))
+             (org-bbcode--build-title
+              headline info (- text-width indent) nil
+              (or (not (plist-get info :with-tags))
+                  (eq (plist-get info :with-tags) 'not-in-toc))
+              'toc))))
+        (org-export-collect-headlines info n) "\n")))))
 
 (defun org-bbcode--list-listings (keyword info)
   "Return a list of listings.
@@ -379,34 +379,34 @@ generation.  INFO is a plist used as a communication channel."
     (concat
      title "\n"
      (make-string (length title)
-		  (if (eq (plist-get info :bbcode-charset) 'utf-8) ?─ ?_))
+                  (if (eq (plist-get info :bbcode-charset) 'utf-8) ?─ ?_))
      "\n\n"
      (let ((text-width
-	    (if keyword (org-ascii--current-text-width keyword info)
-	      org-bbcode-text-width ))
-	   ;; Use a counter instead of retreiving ordinal of each
-	   ;; src-block.
-	   (count 0))
+            (if keyword (org-ascii--current-text-width keyword info)
+              org-bbcode-text-width ))
+           ;; Use a counter instead of retreiving ordinal of each
+           ;; src-block.
+           (count 0))
        (mapconcat
-	(lambda (src-block)
-	  ;; Store initial text so its length can be computed.  This is
-	  ;; used to properly align caption right to it in case of
-	  ;; filling (like contents of a description list item).
-	  (let ((initial-text
-		 (format (org-bbcode--translate "Listing %d:" info)
-			 (incf count))))
-	    (concat
-	     initial-text " "
-	     (org-trim
-	      (org-ascii--indent-string
-	       (org-ascii--fill-string
-		;; Use short name in priority, if available.
-		(let ((caption (or (org-export-get-caption src-block t)
-				   (org-export-get-caption src-block))))
-		  (org-export-data caption info))
-		(- text-width (length initial-text)) info)
-	       (length initial-text))))))
-	(org-export-collect-listings info) "\n")))))
+        (lambda (src-block)
+          ;; Store initial text so its length can be computed.  This is
+          ;; used to properly align caption right to it in case of
+          ;; filling (like contents of a description list item).
+          (let ((initial-text
+                 (format (org-bbcode--translate "Listing %d:" info)
+                         (incf count))))
+            (concat
+             initial-text " "
+             (org-trim
+              (org-ascii--indent-string
+               (org-ascii--fill-string
+                ;; Use short name in priority, if available.
+                (let ((caption (or (org-export-get-caption src-block t)
+                                   (org-export-get-caption src-block))))
+                  (org-export-data caption info))
+                (- text-width (length initial-text)) info)
+               (length initial-text))))))
+        (org-export-collect-listings info) "\n")))))
 
 (defun org-bbcode--list-tables (keyword info)
   "Return a list of tables.
@@ -417,34 +417,34 @@ generation.  INFO is a plist used as a communication channel."
     (concat
      title "\n"
      (make-string (length title)
-		  (if (eq (plist-get info :bbcode-charset) 'utf-8) ?─ ?_))
+                  (if (eq (plist-get info :bbcode-charset) 'utf-8) ?─ ?_))
      "\n\n"
      (let ((text-width
-	    (if keyword (org-ascii--current-text-width keyword info)
-	      org-bbcode-text-width ))
-	   ;; Use a counter instead of retreiving ordinal of each
-	   ;; src-block.
-	   (count 0))
+            (if keyword (org-ascii--current-text-width keyword info)
+              org-bbcode-text-width ))
+           ;; Use a counter instead of retreiving ordinal of each
+           ;; src-block.
+           (count 0))
        (mapconcat
-	(lambda (table)
-	  ;; Store initial text so its length can be computed.  This is
-	  ;; used to properly align caption right to it in case of
-	  ;; filling (like contents of a description list item).
-	  (let ((initial-text
-		 (format (org-bbcode--translate "Table %d:" info)
-			 (incf count))))
-	    (concat
-	     initial-text " "
-	     (org-trim
-	      (org-ascii--indent-string
-	       (org-ascii--fill-string
-		;; Use short name in priority, if available.
-		(let ((caption (or (org-export-get-caption table t)
-				   (org-export-get-caption table))))
-		  (org-export-data caption info))
-		(- text-width (length initial-text)) info)
-	       (length initial-text))))))
-	(org-export-collect-tables info) "\n")))))
+        (lambda (table)
+          ;; Store initial text so its length can be computed.  This is
+          ;; used to properly align caption right to it in case of
+          ;; filling (like contents of a description list item).
+          (let ((initial-text
+                 (format (org-bbcode--translate "Table %d:" info)
+                         (incf count))))
+            (concat
+             initial-text " "
+             (org-trim
+              (org-ascii--indent-string
+               (org-ascii--fill-string
+                ;; Use short name in priority, if available.
+                (let ((caption (or (org-export-get-caption table t)
+                                   (org-export-get-caption table))))
+                  (org-export-data caption info))
+                (- text-width (length initial-text)) info)
+               (length initial-text))))))
+        (org-export-collect-tables info) "\n")))))
 
 (defun org-bbcode--unique-links (element info)
   "Return a list of unique link references in ELEMENT.
@@ -452,26 +452,26 @@ generation.  INFO is a plist used as a communication channel."
 ELEMENT is either a headline element or a section element.  INFO
 is a plist used as a communication channel."
   (let* (seen
-	 (unique-link-p
-	  (function
-	   ;; Return LINK if it wasn't referenced so far, or nil.
-	   ;; Update SEEN links along the way.
-	   (lambda (link)
-	     (let ((footprint
-		    (cons (org-element-property :raw-link link)
-			  (org-element-contents link))))
-	       ;; Ignore LINK if it hasn't been translated already.
-	       ;; It can happen if it is located in an affiliated
-	       ;; keyword that was ignored.
-	       (when (and (org-string-nw-p
-			   (gethash link (plist-get info :exported-data)))
-			  (not (member footprint seen)))
-		 (push footprint seen) link)))))
-	 ;; If at a section, find parent headline, if any, in order to
-	 ;; count links that might be in the title.
-	 (headline
-	  (if (eq (org-element-type element) 'headline) element
-	    (or (org-export-get-parent-headline element) element))))
+         (unique-link-p
+          (function
+           ;; Return LINK if it wasn't referenced so far, or nil.
+           ;; Update SEEN links along the way.
+           (lambda (link)
+             (let ((footprint
+                    (cons (org-element-property :raw-link link)
+                          (org-element-contents link))))
+               ;; Ignore LINK if it hasn't been translated already.
+               ;; It can happen if it is located in an affiliated
+               ;; keyword that was ignored.
+               (when (and (org-string-nw-p
+                           (gethash link (plist-get info :exported-data)))
+                          (not (member footprint seen)))
+                 (push footprint seen) link)))))
+         ;; If at a section, find parent headline, if any, in order to
+         ;; count links that might be in the title.
+         (headline
+          (if (eq (org-element-type element) 'headline) element
+            (or (org-export-get-parent-headline element) element))))
     ;; Get all links in HEADLINE.
     (org-element-map headline 'link
       (lambda (l) (funcall unique-link-p l)) info nil nil t)))
@@ -486,36 +486,36 @@ channel."
   (mapconcat
    (lambda (link)
      (let ((type (org-element-property :type link))
-	   (anchor (let ((desc (org-element-contents link)))
-		     (if desc (org-export-data desc info)
-		       (org-element-property :raw-link link)))))
+           (anchor (let ((desc (org-element-contents link)))
+                     (if desc (org-export-data desc info)
+                       (org-element-property :raw-link link)))))
        (cond
-	;; Coderefs, radio links and fuzzy links are ignored.
-	((member type '("coderef" "radio" "fuzzy")) nil)
-	;; Id and custom-id links: Headlines refer to their numbering.
-	((member type '("custom-id" "id"))
-	 (let ((dest (org-export-resolve-id-link link info)))
-	   (concat
-	    (org-ascii--fill-string
-	     (format
-	      "[%s] %s"
-	      anchor
-	      (if (not dest) (org-bbcode--translate "Unknown reference" info)
-		(format
-		 (org-bbcode--translate "See section %s" info)
-		 (mapconcat 'number-to-string
-			    (org-export-get-headline-number dest info) "."))))
-	     width info) "\n\n")))
-	;; Do not add a link that cannot be resolved and doesn't have
-	;; any description: destination is already visible in the
-	;; paragraph.
-	((not (org-element-contents link)) nil)
-	(t
-	 (concat
-	  (org-ascii--fill-string
-	   (format "[%s] %s" anchor (org-element-property :raw-link link))
-	   width info)
-	  "\n\n")))))
+        ;; Coderefs, radio links and fuzzy links are ignored.
+        ((member type '("coderef" "radio" "fuzzy")) nil)
+        ;; Id and custom-id links: Headlines refer to their numbering.
+        ((member type '("custom-id" "id"))
+         (let ((dest (org-export-resolve-id-link link info)))
+           (concat
+            (org-ascii--fill-string
+             (format
+              "[%s] %s"
+              anchor
+              (if (not dest) (org-bbcode--translate "Unknown reference" info)
+                (format
+                 (org-bbcode--translate "See section %s" info)
+                 (mapconcat 'number-to-string
+                            (org-export-get-headline-number dest info) "."))))
+             width info) "\n\n")))
+        ;; Do not add a link that cannot be resolved and doesn't have
+        ;; any description: destination is already visible in the
+        ;; paragraph.
+        ((not (org-element-contents link)) nil)
+        (t
+         (concat
+          (org-ascii--fill-string
+           (format "[%s] %s" anchor (org-element-property :raw-link link))
+           width info)
+          "\n\n")))))
    links ""))
 
 (defun org-bbcode--checkbox (item info)
@@ -535,7 +535,7 @@ INFO is a plist used as a communication channel."
   "Alist of characters to be converted by `org-bbcode-protect'."
   :group 'org-export-bbcode
   :type '(repeat (cons (string :tag "Character")
-		       (string :tag "BBCODE equivalent"))))
+                       (string :tag "BBCODE equivalent"))))
 
 (defun org-bbcode-encode-plain-text (text)
   "Convert plain text characters from TEXT to BBCODE equivalent.
@@ -553,67 +553,67 @@ Possible conversions are set in `org-bbcode-protect-char-alist'."
   "Return document title, as a string.
 INFO is a plist used as a communication channel."
   (let* ((text-width org-bbcode-text-width)
-	 ;; Links in the title will not be resolved later, so we make
-	 ;; sure their path is located right after them.
-	 (org-bbcode-links-to-notes nil)
-	 (title (org-export-data (plist-get info :title) info))
-	 (author (and (plist-get info :with-author)
-		      (let ((auth (plist-get info :author)))
-			(and auth (org-export-data auth info)))))
-	 (email (and (plist-get info :with-email)
-		     (org-export-data (plist-get info :email) info)))
-	 (date (and (plist-get info :with-date)
-		    (org-export-data (org-export-get-date info) info))))
+         ;; Links in the title will not be resolved later, so we make
+         ;; sure their path is located right after them.
+         (org-bbcode-links-to-notes nil)
+         (title (org-export-data (plist-get info :title) info))
+         (author (and (plist-get info :with-author)
+                      (let ((auth (plist-get info :author)))
+                        (and auth (org-export-data auth info)))))
+         (email (and (plist-get info :with-email)
+                     (org-export-data (plist-get info :email) info)))
+         (date (and (plist-get info :with-date)
+                    (org-export-data (org-export-get-date info) info))))
     ;; There are two types of title blocks depending on the presence
     ;; of a title to display.
     (if (string= title "")
-	;; Title block without a title.  DATE is positioned at the top
-	;; right of the document, AUTHOR to the top left and EMAIL
-	;; just below.
-	(cond
-	 ((and (org-string-nw-p date) (org-string-nw-p author))
-	  (concat
-	   author
-	   (make-string (- text-width (string-width date) (string-width author)) ? )
-	   date
-	   (when (org-string-nw-p email) (concat "\n" email))
-	   "\n\n\n"))
-	 ((and (org-string-nw-p date) (org-string-nw-p email))
-	  (concat
-	   email
-	   (make-string (- text-width (string-width date) (string-width email)) ? )
-	   date "\n\n\n"))
-	 ((org-string-nw-p date)
-	  (concat
-	   (org-ascii--justify-string date text-width 'right)
-	   "\n\n\n"))
-	 ((and (org-string-nw-p author) (org-string-nw-p email))
-	  (concat author "\n" email "\n\n\n"))
-	 ((org-string-nw-p author) (concat author "\n\n\n"))
-	 ((org-string-nw-p email) (concat email "\n\n\n")))
+        ;; Title block without a title.  DATE is positioned at the top
+        ;; right of the document, AUTHOR to the top left and EMAIL
+        ;; just below.
+        (cond
+         ((and (org-string-nw-p date) (org-string-nw-p author))
+          (concat
+           author
+           (make-string (- text-width (string-width date) (string-width author)) ? )
+           date
+           (when (org-string-nw-p email) (concat "\n" email))
+           "\n\n\n"))
+         ((and (org-string-nw-p date) (org-string-nw-p email))
+          (concat
+           email
+           (make-string (- text-width (string-width date) (string-width email)) ? )
+           date "\n\n\n"))
+         ((org-string-nw-p date)
+          (concat
+           (org-ascii--justify-string date text-width 'right)
+           "\n\n\n"))
+         ((and (org-string-nw-p author) (org-string-nw-p email))
+          (concat author "\n" email "\n\n\n"))
+         ((org-string-nw-p author) (concat author "\n\n\n"))
+         ((org-string-nw-p email) (concat email "\n\n\n")))
       ;; Title block with a title.  Document's TITLE, along with the
       ;; AUTHOR and its EMAIL are both overlined and an underlined,
       ;; centered.  Date is just below, also centered.
       (let* ((utf8p (eq (plist-get info :bbcode-charset) 'utf-8))
-	     ;; Format TITLE.  It may be filled if it is too wide,
-	     ;; that is wider than the two thirds of the total width.
-	     (title-len (min (string-width title) (/ (* 2 text-width) 3)))
-	     (formatted-title (org-ascii--fill-string title title-len info))
-	     )
-	(concat
-	 (org-bbcode-center
-	  (org-bbcode-font-size (upcase title) 6)
-	  "\n")
-	 (cond
-	  ((and (org-string-nw-p author) (org-string-nw-p email))
-	   (org-bbcode-center (concat author " <" email + ">") "\n"))
-	  ((org-string-nw-p author)
-	   (org-bbcode-center author "\n"))
-	  ((org-string-nw-p email)
-	   (org-bbcode-center email "\n"))
-	  ((org-string-nw-p date)
-       (org-bbcode-center date "\n"))
-	  (t "\n\n")))))))
+             ;; Format TITLE.  It may be filled if it is too wide,
+             ;; that is wider than the two thirds of the total width.
+             (title-len (min (string-width title) (/ (* 2 text-width) 3)))
+             (formatted-title (org-ascii--fill-string title title-len info))
+             )
+        (concat
+         (org-bbcode-center
+          (org-bbcode-font-size (upcase title) 6)
+          "\n")
+         (cond
+          ((and (org-string-nw-p author) (org-string-nw-p email))
+           (org-bbcode-center (concat author " <" email + ">") "\n"))
+          ((org-string-nw-p author)
+           (org-bbcode-center author "\n"))
+          ((org-string-nw-p email)
+           (org-bbcode-center email "\n"))
+          ((org-string-nw-p date)
+           (org-bbcode-center date "\n"))
+          (t "\n\n")))))))
 
 (defun org-bbcode-inner-template (contents info)
   "Return body of document string after BBCODE conversion.
@@ -626,45 +626,45 @@ holding export options."
      contents
      ;; 2. Footnote definitions.
      (let ((definitions (org-export-collect-footnote-definitions
-			 (plist-get info :parse-tree) info))
-	   ;; Insert full links right inside the footnote definition
-	   ;; as they have no chance to be inserted later.
-	   (org-bbcode-links-to-notes nil))
+                         (plist-get info :parse-tree) info))
+           ;; Insert full links right inside the footnote definition
+           ;; as they have no chance to be inserted later.
+           (org-bbcode-links-to-notes nil))
        (when definitions
-	 (concat
-	  "\n\n\n"
-	  (let ((title (org-bbcode--translate "Footnotes" info)))
-	    (concat
-	     title "\n"
-	     (make-string
-	      (length title)
-	      (if (eq (plist-get info :bbcode-charset) 'utf-8) ?─ ?_))))
-	  "\n\n"
-	  (let ((text-width org-bbcode-text-width ))
-	    (mapconcat
-	     (lambda (ref)
-	       (let ((id (format "[%s] " (car ref))))
-		 ;; Distinguish between inline definitions and
-		 ;; full-fledged definitions.
-		 (org-trim
-		  (let ((def (nth 2 ref)))
-		    (if (eq (org-element-type def) 'org-data)
-			;; Full-fledged definition: footnote ID is
-			;; inserted inside the first parsed paragraph
-			;; (FIRST), if any, to be sure filling will
-			;; take it into consideration.
-			(let ((first (car (org-element-contents def))))
-			  (if (not (eq (org-element-type first) 'paragraph))
-			      (concat id "\n" (org-export-data def info))
-			    (push id (nthcdr 2 first))
-			    (org-export-data def info)))
-		      ;; Fill paragraph once footnote ID is inserted
-		      ;; in order to have a correct length for first
-		      ;; line.
-		      (org-ascii--fill-string
-		       (concat id (org-export-data def info))
-		       text-width info))))))
-	     definitions "\n\n\n"))))))
+         (concat
+          "\n\n\n"
+          (let ((title (org-bbcode--translate "Footnotes" info)))
+            (concat
+             title "\n"
+             (make-string
+              (length title)
+              (if (eq (plist-get info :bbcode-charset) 'utf-8) ?─ ?_))))
+          "\n\n"
+          (let ((text-width org-bbcode-text-width ))
+            (mapconcat
+             (lambda (ref)
+               (let ((id (format "[%s] " (car ref))))
+                 ;; Distinguish between inline definitions and
+                 ;; full-fledged definitions.
+                 (org-trim
+                  (let ((def (nth 2 ref)))
+                    (if (eq (org-element-type def) 'org-data)
+                        ;; Full-fledged definition: footnote ID is
+                        ;; inserted inside the first parsed paragraph
+                        ;; (FIRST), if any, to be sure filling will
+                        ;; take it into consideration.
+                        (let ((first (car (org-element-contents def))))
+                          (if (not (eq (org-element-type first) 'paragraph))
+                              (concat id "\n" (org-export-data def info))
+                            (push id (nthcdr 2 first))
+                            (org-export-data def info)))
+                      ;; Fill paragraph once footnote ID is inserted
+                      ;; in order to have a correct length for first
+                      ;; line.
+                      (org-ascii--fill-string
+                       (concat id (org-export-data def info))
+                       text-width info))))))
+             definitions "\n\n\n"))))))
     0)))
 
 (defun org-bbcode-template (contents info)
@@ -674,24 +674,24 @@ holding export options."
   (concat
    ;; 1. Build title block.
    (concat (org-bbcode-template--document-title info)
-	    ;; 2. Table of contents.
-	    (let ((depth (plist-get info :with-toc)))
-	      (when depth
-		(concat
-		 (org-bbcode--build-toc info (and (wholenump depth) depth))
-		 "\n\n"))))
+           ;; 2. Table of contents.
+           (let ((depth (plist-get info :with-toc)))
+             (when depth
+               (concat
+                (org-bbcode--build-toc info (and (wholenump depth) depth))
+                "\n\n"))))
    ;; 3. Document's body.
    contents
    ;; 4. Creator.  Ignore `comment' value as there are no comments in
    ;;    BBCODE.  Justify it to the bottom right.
    (org-ascii--indent-string
     (let ((creator-info (plist-get info :with-creator))
-	  (text-width org-bbcode-text-width))
+          (text-width org-bbcode-text-width))
       (unless (or (not creator-info) (eq creator-info 'comment))
-	(concat
-	 "\n\n\n"
-	 (org-ascii--fill-string
-	  (plist-get info :creator) text-width info 'right))))
+        (concat
+         "\n\n\n"
+         (org-ascii--fill-string
+          (plist-get info :creator) text-width info 'right))))
     5)))
 
 (defun org-bbcode--translate (s info)
@@ -710,7 +710,7 @@ INFO is a plist used as a communication channel."
 CONTENTS is the text with bold markup.  INFO is a plist holding
 contextual information."
   (format (or (cdr (assq 'bold org-bbcode-text-markup-alist)) "%s")
-	  contents))
+          contents))
 
 ;;;; Center Block
 
@@ -744,7 +744,7 @@ information."
 CONTENTS is nil.  INFO is a plist holding contextual
 information."
   (format (or (cdr (assq 'code org-bbcode-text-markup-alist)) "%s")
-	  (org-element-property :value code)))
+          (org-element-property :value code)))
 
 
 ;;;; Drawer
@@ -754,9 +754,9 @@ information."
 CONTENTS holds the contents of the block.  INFO is a plist
 holding contextual information."
   (let ((name (org-element-property :drawer-name drawer))
-	(width (org-ascii--current-text-width drawer info)))
+        (width (org-ascii--current-text-width drawer info)))
     (if (functionp org-bbcode-format-drawer-function)
-	(funcall org-bbcode-format-drawer-function name contents width)
+        (funcall org-bbcode-format-drawer-function name contents width)
       ;; If there's no user defined function: simply
       ;; display contents of the drawer.
       contents)))
@@ -815,8 +815,8 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
   "Transcode a FIXED-WIDTH element from Org to BBCODE.
 CONTENTS is nil.  INFO is a plist holding contextual information."
   (format (or (cdr (assq 'code org-bbcode-text-markup-alist)) "%s")
-	  (org-remove-indentation
-	   (org-element-property :value fixed-width)) info))
+          (org-remove-indentation
+           (org-element-property :value fixed-width)) info))
 
 
 ;;;; Footnote Definition
@@ -843,44 +843,44 @@ holding contextual information."
   ;; of the template.
   (unless (org-element-property :footnote-section-p headline)
     (let* ((low-level-rank (org-export-low-level-p headline info))
-	   (width (org-ascii--current-text-width headline info))
-	   ;; Blank lines between headline and its contents.
-	   ;; `org-bbcode-headline-spacing', when set, overwrites
-	   ;; original buffer's spacing.
-	   (pre-blanks
-	    (make-string
-	     (if org-bbcode-headline-spacing (car org-bbcode-headline-spacing)
-	       (org-element-property :pre-blank headline)) ?\n))
-	   ;; Even if HEADLINE has no section, there might be some
-	   ;; links in its title that we shouldn't forget to describe.
-	   (links
-	    (unless (or (eq (caar (org-element-contents headline)) 'section))
-	      (let ((title (org-element-property :title headline)))
-		(when (consp title)
-		  (org-bbcode--describe-links
-		   (org-bbcode--unique-links title info) width info))))))
+           (width (org-ascii--current-text-width headline info))
+           ;; Blank lines between headline and its contents.
+           ;; `org-bbcode-headline-spacing', when set, overwrites
+           ;; original buffer's spacing.
+           (pre-blanks
+            (make-string
+             (if org-bbcode-headline-spacing (car org-bbcode-headline-spacing)
+               (org-element-property :pre-blank headline)) ?\n))
+           ;; Even if HEADLINE has no section, there might be some
+           ;; links in its title that we shouldn't forget to describe.
+           (links
+            (unless (or (eq (caar (org-element-contents headline)) 'section))
+              (let ((title (org-element-property :title headline)))
+                (when (consp title)
+                  (org-bbcode--describe-links
+                   (org-bbcode--unique-links title info) width info))))))
       ;; Deep subtree: export it as a list item.
       (if low-level-rank
-	  (concat
-	   ;; Bullet.
-	   (let ((bullets '(?§ ?¶ ?◊)))
-	     (char-to-string
-	      (nth (mod (1- low-level-rank) (length bullets)) bullets)))
-	   " "
-	   ;; Title.
-	   (org-bbcode--build-title headline info width)
-	   "\n"
-	   ;; Contents, indented by length of bullet.
-	   pre-blanks
-	   (org-ascii--indent-string
-	    (concat contents
-		    (when (org-string-nw-p links) (concat "\n\n" links)))
-	    2))
-	;; Else: Standard headline.
-	(concat
-	 (org-bbcode--build-title headline info width 'underline)
-	 "\n" pre-blanks
-	 (concat (when (org-string-nw-p links) links) contents))))))
+          (concat
+           ;; Bullet.
+           (let ((bullets '(?§ ?¶ ?◊)))
+             (char-to-string
+              (nth (mod (1- low-level-rank) (length bullets)) bullets)))
+           " "
+           ;; Title.
+           (org-bbcode--build-title headline info width)
+           "\n"
+           ;; Contents, indented by length of bullet.
+           pre-blanks
+           (org-ascii--indent-string
+            (concat contents
+                    (when (org-string-nw-p links) (concat "\n\n" links)))
+            2))
+        ;; Else: Standard headline.
+        (concat
+         (org-bbcode--build-title headline info width 'underline)
+         "\n" pre-blanks
+         (concat (when (org-string-nw-p links) links) contents))))))
 
 ;;;; Src Code
 
@@ -904,36 +904,36 @@ is the language used for CODE, as a string, or nil."
       ;; Map language
       (setq lang (or (assoc-default lang org-src-lang-modes) lang))
       (let* ((lang-mode (and lang (intern (format "%s-mode" lang)))))
-	(cond
-	 ;; Case 1: Language is not associated with any Emacs mode
-	 ((not (functionp lang-mode))
-	  ;; Simple transcoding.
-	  (org-bbcode-encode-plain-text code))
-	 ;; Case 2: Default.  Fontify code.
-	 (t
-	  ;; bbcodeize
-	  (setq code (with-temp-buffer
-		       ;; Switch to language-specific mode.
-		       (funcall lang-mode)
-		       (insert code)
-		       ;; Fontify buffer.
-		       (font-lock-fontify-buffer)
-		       ;; Remove formatting on newline characters.
-		       (save-excursion
-			 (let ((beg (point-min))
-			       (end (point-max)))
-			   (goto-char beg)
-			   (while (progn (end-of-line) (< (point) end))
-			     (put-text-property (point) (1+ (point)) 'face nil)
-			     (forward-char 1))))
-		       (org-src-mode)
-		       (set-buffer-modified-p nil)
-		       ;; bbcodeize region.
-		       (bbcodeize-region-for-paste
-			(point-min) (point-max)))))))))))
+        (cond
+         ;; Case 1: Language is not associated with any Emacs mode
+         ((not (functionp lang-mode))
+          ;; Simple transcoding.
+          (org-bbcode-encode-plain-text code))
+         ;; Case 2: Default.  Fontify code.
+         (t
+          ;; bbcodeize
+          (setq code (with-temp-buffer
+                       ;; Switch to language-specific mode.
+                       (funcall lang-mode)
+                       (insert code)
+                       ;; Fontify buffer.
+                       (font-lock-fontify-buffer)
+                       ;; Remove formatting on newline characters.
+                       (save-excursion
+                         (let ((beg (point-min))
+                               (end (point-max)))
+                           (goto-char beg)
+                           (while (progn (end-of-line) (< (point) end))
+                             (put-text-property (point) (1+ (point)) 'face nil)
+                             (forward-char 1))))
+                       (org-src-mode)
+                       (set-buffer-modified-p nil)
+                       ;; bbcodeize region.
+                       (bbcodeize-region-for-paste
+                        (point-min) (point-max)))))))))))
 
 (defun org-bbcode-do-format-code
-  (code &optional lang refs retain-labels num-start)
+    (code &optional lang refs retain-labels num-start)
   "Format CODE string as source code.
 Optional arguments LANG, REFS, RETAIN-LABELS and NUM-START are,
 respectively, the language of the source code, as a string, an
@@ -942,44 +942,44 @@ alist between line numbers and references (as returned by
 appear in the source code, and the number associated to the first
 line of code."
   (let* ((code-lines (org-split-string code "\n"))
-	 (code-length (length code-lines))
-	 (num-fmt
-	  (and num-start
-	       (format "%%%ds: "
-		       (length (number-to-string (+ code-length num-start))))))
-	 (code (org-bbcode-fontify-code code lang)))
+         (code-length (length code-lines))
+         (num-fmt
+          (and num-start
+               (format "%%%ds: "
+                       (length (number-to-string (+ code-length num-start))))))
+         (code (org-bbcode-fontify-code code lang)))
     (concat "[align=center][table=90%,LemonChiffon][tr][td]"
-	    (org-export-format-code
-	     code
-	     (lambda (loc line-num ref)
-	       (setq loc
-		     (concat
-		      ;; Add line number, if needed.
-		      (when num-start
-			(format "%s"
-				(format num-fmt line-num)))
-		      ;; Transcoded src line.
-		      loc
-		      ;; Add label, if needed.
-		      (when (and ref retain-labels) (format " (%s)" ref)))))
-	     num-start refs)
-	    "[/td][/tr][/table][/align]\n")))
+            (org-export-format-code
+             code
+             (lambda (loc line-num ref)
+               (setq loc
+                     (concat
+                      ;; Add line number, if needed.
+                      (when num-start
+                        (format "%s"
+                                (format num-fmt line-num)))
+                      ;; Transcoded src line.
+                      loc
+                      ;; Add label, if needed.
+                      (when (and ref retain-labels) (format " (%s)" ref)))))
+             num-start refs)
+            "[/td][/tr][/table][/align]\n")))
 
 (defun org-bbcode-format-code (element info)
   "Format contents of ELEMENT as source code.
 ELEMENT is either an example block or a src block.  INFO is
 a plist used as a communication channel."
   (let* ((lang (org-element-property :language element))
-	 ;; Extract code and references.
-	 (code-info (org-export-unravel-code element))
-	 (code (car code-info))
-	 (refs (cdr code-info))
-	 ;; Does the src block contain labels?
-	 (retain-labels (org-element-property :retain-labels element))
-	 ;; Does it have line numbers?
-	 (num-start (case (org-element-property :number-lines element)
-		      (continued (org-export-get-loc element info))
-		      (new 0))))
+         ;; Extract code and references.
+         (code-info (org-export-unravel-code element))
+         (code (car code-info))
+         (refs (cdr code-info))
+         ;; Does the src block contain labels?
+         (retain-labels (org-element-property :retain-labels element))
+         ;; Does it have line numbers?
+         (num-start (case (org-element-property :number-lines element)
+                      (continued (org-export-get-loc element info))
+                      (new 0))))
     (org-bbcode-do-format-code code lang refs retain-labels num-start)))
 
 ;;;; Horizontal Rule
@@ -989,13 +989,13 @@ a plist used as a communication channel."
 CONTENTS is nil.  INFO is a plist holding contextual
 information."
   (let ((text-width (org-ascii--current-text-width horizontal-rule info))
-	(spec-width
-	 (org-export-read-attribute :attr_bbcode horizontal-rule :width)))
+        (spec-width
+         (org-export-read-attribute :attr_bbcode horizontal-rule :width)))
     (org-ascii--justify-string
      (make-string (if (and spec-width (string-match "^[0-9]+$" spec-width))
-		      (string-to-number spec-width)
-		    text-width)
-		  (if (eq (plist-get info :bbcode-charset) 'utf-8) ?― ?-))
+                      (string-to-number spec-width)
+                    text-width)
+                  (if (eq (plist-get info :bbcode-charset) 'utf-8) ?― ?-))
      text-width 'center)))
 
 
@@ -1006,7 +1006,7 @@ information."
 CONTENTS holds the contents of the item.  INFO is a plist holding
 contextual information."
   (format org-bbcode-verbatim-format
-	  (org-element-property :value inline-src-block)))
+          (org-element-property :value inline-src-block)))
 
 
 ;;;; Inlinetask
@@ -1019,44 +1019,44 @@ holding contextual information."
     ;; If `org-bbcode-format-inlinetask-function' is provided, call it
     ;; with appropriate arguments.
     (if (functionp org-bbcode-format-inlinetask-function)
-	(funcall org-bbcode-format-inlinetask-function
-		 ;; todo.
-		 (and (plist-get info :with-todo-keywords)
-		      (let ((todo (org-element-property
-				   :todo-keyword inlinetask)))
-			(and todo (org-export-data todo info))))
-		 ;; todo-type
-		 (org-element-property :todo-type inlinetask)
-		 ;; priority
-		 (and (plist-get info :with-priority)
-		      (org-element-property :priority inlinetask))
-		 ;; title
-		 (org-export-data (org-element-property :title inlinetask) info)
-		 ;; tags
-		 (and (plist-get info :with-tags)
-		      (org-element-property :tags inlinetask))
-		 ;; contents and width
-		 contents width)
+        (funcall org-bbcode-format-inlinetask-function
+                 ;; todo.
+                 (and (plist-get info :with-todo-keywords)
+                      (let ((todo (org-element-property
+                                   :todo-keyword inlinetask)))
+                        (and todo (org-export-data todo info))))
+                 ;; todo-type
+                 (org-element-property :todo-type inlinetask)
+                 ;; priority
+                 (and (plist-get info :with-priority)
+                      (org-element-property :priority inlinetask))
+                 ;; title
+                 (org-export-data (org-element-property :title inlinetask) info)
+                 ;; tags
+                 (and (plist-get info :with-tags)
+                      (org-element-property :tags inlinetask))
+                 ;; contents and width
+                 contents width)
       ;; Otherwise, use a default template.
       (let* ((utf8p (eq (plist-get info :bbcode-charset) 'utf-8)))
-	(org-ascii--indent-string
-	 (concat
-	  ;; Top line, with an additional blank line if not in UTF-8.
-	  (make-string width (if utf8p ?━ ?_))  "\n"
-	  (unless utf8p (concat (make-string width ? ) "\n"))
-	  ;; Add title.  Fill it if wider than inlinetask.
-	  (let ((title (org-bbcode--build-title inlinetask info width)))
-	    (if (<= (length title) width) title
-	      (org-ascii--fill-string title width info)))
-	  "\n"
-	  ;; If CONTENTS is not empty, insert it along with
-	  ;; a separator.
-	  (when (org-string-nw-p contents)
-	    (concat (make-string width (if utf8p ?─ ?-)) "\n" contents))
-	  ;; Bottom line.
-	  (make-string width (if utf8p ?━ ?_)))
-	 ;; Flush the inlinetask to the right.
-	 3)))))
+        (org-ascii--indent-string
+         (concat
+          ;; Top line, with an additional blank line if not in UTF-8.
+          (make-string width (if utf8p ?━ ?_))  "\n"
+          (unless utf8p (concat (make-string width ? ) "\n"))
+          ;; Add title.  Fill it if wider than inlinetask.
+          (let ((title (org-bbcode--build-title inlinetask info width)))
+            (if (<= (length title) width) title
+              (org-ascii--fill-string title width info)))
+          "\n"
+          ;; If CONTENTS is not empty, insert it along with
+          ;; a separator.
+          (when (org-string-nw-p contents)
+            (concat (make-string width (if utf8p ?─ ?-)) "\n" contents))
+          ;; Bottom line.
+          (make-string width (if utf8p ?━ ?_)))
+         ;; Flush the inlinetask to the right.
+         3)))))
 
 
 ;;;; Italic
@@ -1071,13 +1071,13 @@ contextual information."
 (defun org-bbcode-checkbox (checkbox)
   "Format CHECKBOX into BBCODE."
   (case checkbox (on "[X]>")
-	(off "[&#xa0;]")
-	(trans "[-]")
-	(t "")))
+        (off "[&#xa0;]")
+        (trans "[-]")
+        (t "")))
 
 (defun org-bbcode-format-list-item (contents type checkbox info
-					     &optional term-counter-id
-					     headline)
+                                             &optional term-counter-id
+                                             headline)
   "Format a list item into BBCODE."
   (let ((checkbox (concat (org-bbcode-checkbox checkbox) (and checkbox " "))))
     (concat "[*]" checkbox contents)))
@@ -1087,11 +1087,11 @@ contextual information."
 CONTENTS holds the contents of the item.  INFO is a plist holding
 contextual information."
   (let* ((plain-list (org-export-get-parent item))
-	 (type (org-element-property :type plain-list))
-	 (counter (org-element-property :counter item))
-	 (checkbox (org-element-property :checkbox item))
-	 (tag (let ((tag (org-element-property :tag item)))
-		(and tag (org-export-data tag info)))))
+         (type (org-element-property :type plain-list))
+         (counter (org-element-property :counter item))
+         (checkbox (org-element-property :checkbox item))
+         (tag (let ((tag (org-element-property :tag item)))
+                (and tag (org-export-data tag info)))))
     (org-bbcode-format-list-item
      contents type checkbox info (or tag counter))))
 
@@ -1103,22 +1103,22 @@ contextual information."
 CONTENTS is nil.  INFO is a plist holding contextual
 information."
   (let ((key (org-element-property :key keyword))
-	(value (org-element-property :value keyword)))
+        (value (org-element-property :value keyword)))
     (cond
      ((string= key "BBCODE") value)
      ((string= key "TOC")
       (let ((value (downcase value)))
-	(cond
-	 ((string-match "\\<headlines\\>" value)
-	  (let ((depth (or (and (string-match "[0-9]+" value)
-				(string-to-number (match-string 0 value)))
-			   (plist-get info :with-toc))))
-	    (org-bbcode--build-toc
-	     info (and (wholenump depth) depth) keyword)))
-	 ((string= "tables" value)
-	  (org-bbcode--list-tables keyword info))
-	 ((string= "listings" value)
-	  (org-bbcode--list-listings keyword info))))))))
+        (cond
+         ((string-match "\\<headlines\\>" value)
+          (let ((depth (or (and (string-match "[0-9]+" value)
+                                (string-to-number (match-string 0 value)))
+                           (plist-get info :with-toc))))
+            (org-bbcode--build-toc
+             info (and (wholenump depth) depth) keyword)))
+         ((string= "tables" value)
+          (org-bbcode--list-tables keyword info))
+         ((string= "listings" value)
+          (org-bbcode--list-listings keyword info))))))))
 
 
 ;;;; Latex Environment
@@ -1157,35 +1157,35 @@ CONTENTS is nil.  INFO is a plist holding contextual
 DESC is the description part of the link, or the empty string.
 INFO is a plist holding contextual information."
   (let ((raw-link (org-element-property :raw-link link))
-	(type (org-element-property :type link)))
+        (type (org-element-property :type link)))
     (cond
      ((string= type "coderef")
       (let ((ref (org-element-property :path link)))
-	(format (org-export-get-coderef-format ref desc)
-		(org-export-resolve-coderef ref info))))
+        (format (org-export-get-coderef-format ref desc)
+                (org-export-resolve-coderef ref info))))
      ;; Do not apply a special syntax on radio links.  Though, use
      ;; transcoded target's contents as output.
      ((string= type "radio")
       (let ((destination (org-export-resolve-radio-link link info)))
-	(when destination
-	  (org-export-data (org-element-contents destination) info))))
+        (when destination
+          (org-export-data (org-element-contents destination) info))))
      ;; Do not apply a special syntax on fuzzy links pointing to
      ;; targets.
      ((string= type "fuzzy")
       (let ((destination (org-export-resolve-fuzzy-link link info)))
-	(if (org-string-nw-p desc) desc
-	  (when destination
-	    (let ((number
-		   (org-export-get-ordinal
-		    destination info nil 'org-bbcode--has-caption-p)))
-	      (when number
-		(if (atom number) (number-to-string number)
-		  (mapconcat 'number-to-string number "."))))))))
+        (if (org-string-nw-p desc) desc
+          (when destination
+            (let ((number
+                   (org-export-get-ordinal
+                    destination info nil 'org-bbcode--has-caption-p)))
+              (when number
+                (if (atom number) (number-to-string number)
+                  (mapconcat 'number-to-string number "."))))))))
      (t
       (if (not (org-string-nw-p desc)) (format "[%s]" raw-link)
-	(concat
-	 (format "[%s]" desc)
-	 (unless org-bbcode-links-to-notes (format " (%s)" raw-link))))))))
+        (concat
+         (format "[%s]" desc)
+         (unless org-bbcode-links-to-notes (format " (%s)" raw-link))))))))
 
 
 ;;;; Paragraph
@@ -1219,10 +1219,10 @@ lists."
 CONTENTS is the contents of the list.  INFO is a plist holding
 contextual information."
   (let* (arg1 ;; (assoc :counter (org-element-map plain-list 'item
-	 (type (org-element-property :type plain-list)))
+         (type (org-element-property :type plain-list)))
     (format "%s\n%s%s"
-	    (org-bbcode-begin-plain-list type)
-	    contents (org-bbcode-end-plain-list type))))
+            (org-bbcode-begin-plain-list type)
+            contents (org-bbcode-end-plain-list type))))
 
 
 ;;;; Plain Text
@@ -1250,9 +1250,9 @@ contextual information."
     ;; Handle break preservation if required.
     (when (plist-get info :preserve-breaks)
       (setq output
-	    (replace-regexp-in-string
-	     "\\(\\\\\\\\\\)?[ \t]*\n"
-	     (concat (org-bbcode-close-tag "br" nil info) "\n") output)))
+            (replace-regexp-in-string
+             "\\(\\\\\\\\\\)?[ \t]*\n"
+             (concat (org-bbcode-close-tag "br" nil info) "\n") output)))
     ;; Return value.
     output))
 
@@ -1266,21 +1266,21 @@ channel."
   (mapconcat
    'identity
    (delq nil
-	 (list (let ((closed (org-element-property :closed planning)))
-		 (when closed
-		   (concat org-closed-string " "
-			   (org-translate-time
-			    (org-element-property :raw-value closed)))))
-	       (let ((deadline (org-element-property :deadline planning)))
-		 (when deadline
-		   (concat org-deadline-string " "
-			   (org-translate-time
-			    (org-element-property :raw-value deadline)))))
-	       (let ((scheduled (org-element-property :scheduled planning)))
-		 (when scheduled
-		   (concat org-scheduled-string " "
-			   (org-translate-time
-			    (org-element-property :raw-value scheduled)))))))
+         (list (let ((closed (org-element-property :closed planning)))
+                 (when closed
+                   (concat org-closed-string " "
+                           (org-translate-time
+                            (org-element-property :raw-value closed)))))
+               (let ((deadline (org-element-property :deadline planning)))
+                 (when deadline
+                   (concat org-deadline-string " "
+                           (org-translate-time
+                            (org-element-property :raw-value deadline)))))
+               (let ((scheduled (org-element-property :scheduled planning)))
+                 (when scheduled
+                   (concat org-scheduled-string " "
+                           (org-translate-time
+                            (org-element-property :raw-value scheduled)))))))
    " "))
 
 
@@ -1299,7 +1299,7 @@ holding contextual information."
   "Transcode a QUOTE-SECTION element from Org to BBCODE.
 CONTENTS is nil.  INFO is a plist holding contextual information."
   (let ((value (org-remove-indentation
-		(org-element-property :value quote-section))))
+                (org-element-property :value quote-section))))
     (when value (format "[quote]\n%s[/quote]" value))))
 
 ;;;; Radio Target
@@ -1335,7 +1335,7 @@ holding contextual information."
 CONTENTS holds the contents of the item.  INFO is a plist holding
 contextual information."
   (let ((caption (org-bbcode--build-caption src-block info))
-	(code (org-export-format-code-default src-block info)))
+        (code (org-export-format-code-default src-block info)))
     (if (equal code "") ""
       (concat
        (when (and caption org-bbcode-caption-above) (concat caption "\n"))
@@ -1344,7 +1344,7 @@ contextual information."
        ;; (replace-regexp-in-string "\\(?:\n[ \t]*\\)*\\'" "" code)
        ;; "[/code]"
        (when (and caption (not org-bbcode-caption-above))
-	 (concat "\n" caption))))))
+         (concat "\n" caption))))))
 
 
 ;;;; Statistics Cookie
@@ -1384,7 +1384,7 @@ contextual information."
 CONTENTS is text with strike-through markup.  INFO is a plist
 holding contextual information."
   (format (or (cdr (assq 'strike-through org-bbcode-text-markup-alist)) "%s")
-	  contents))
+          contents))
 
 
 ;;;; Table
@@ -1411,17 +1411,17 @@ contextual information."
 CONTENTS is nil.  INFO is a plist used as a communication
 channel."
   (let* ((table-row (org-export-get-parent table-cell))
-	 (table (org-export-get-parent-table table-cell)))
+         (table (org-export-get-parent-table table-cell)))
     (when (or (not contents) (string= "" (org-trim contents)))
       (setq contents "&#xa0;"))
     (cond
      ((and (org-export-table-has-header-p table info)
-	   (= 1 (org-export-table-row-group table-row info)))
+           (= 1 (org-export-table-row-group table-row info)))
       (concat "[td]"
-	      (org-bbcode-color contents "blue")
-	      "[/td]"))
+              (org-bbcode-color contents "blue")
+              "[/td]"))
      (t (concat "[td]"
-		contents "[/td]")))))
+                contents "[/td]")))))
 
 ;;;; Table Row
 
@@ -1435,8 +1435,8 @@ a communication channel."
     (concat
      ;; Actual table row
      (concat "[tr]"
-	     contents
-	     "[/tr]")
+             contents
+             "[/tr]")
      ;; End a rowgroup?
      )))
 
@@ -1455,7 +1455,7 @@ CONTENTS is nil.  INFO is a plist holding contextual information."
 CONTENTS is the text with underline markup.  INFO is a plist
 holding contextual information."
   (format (or (cdr (assq 'underline org-bbcode-text-markup-alist)) "%s")
-	  contents))
+          contents))
 
 
 ;;;; Verbatim
@@ -1464,7 +1464,7 @@ holding contextual information."
   "Return a VERBATIM object from Org to BBCODE.
 CONTENTS is nil.  INFO is a plist holding contextual information."
   (format (or (cdr (assq 'verbatim org-bbcode-text-markup-alist)) "%s")
-	  (org-bbcode-encode-plain-text (org-element-property :value verbatim))))
+          (org-bbcode-encode-plain-text (org-element-property :value verbatim))))
 
 ;;;; Verse Block
 
@@ -1505,10 +1505,10 @@ See `org-bbcode-paragraph-spacing' for information."
   (when (wholenump org-bbcode-paragraph-spacing)
     (org-element-map tree 'paragraph
       (lambda (p)
-	(when (eq (org-element-type (org-export-get-next-element p info))
-		  'paragraph)
-	  (org-element-put-property
-	   p :post-blank org-bbcode-paragraph-spacing)))))
+        (when (eq (org-element-type (org-export-get-next-element p info))
+                  'paragraph)
+          (org-element-put-property
+           p :post-blank org-bbcode-paragraph-spacing)))))
   tree)
 
 (defun org-bbcode-filter-comment-spacing (tree backend info)
@@ -1519,8 +1519,8 @@ a communication channel."
   (org-element-map tree '(comment comment-block)
     (lambda (c)
       (when (memq (org-element-type (org-export-get-next-element c info))
-		  '(comment comment-block))
-	(org-element-put-property c :post-blank 0))))
+                  '(comment comment-block))
+        (org-element-put-property c :post-blank 0))))
   tree)
 
 (defun org-bbcode-filter-misc-spacing (tree backend info)
@@ -1539,7 +1539,7 @@ a communication channel."
 
 ;;;###autoload
 (defun org-bbcode-export-as-bbcode
-  (&optional async subtreep visible-only body-only ext-plist)
+    (&optional async subtreep visible-only body-only ext-plist)
   "Export current buffer to a text buffer.
 
 If narrowing is active in the current buffer, only export its
@@ -1571,25 +1571,25 @@ is non-nil."
   (interactive)
   (if async
       (org-export-async-start
-       (lambda (output)
-	 (with-current-buffer (get-buffer-create "*Org BBCODE Export*")
-	   (erase-buffer)
-	   (insert output)
-	   (goto-char (point-min))
-	   (text-mode)
-	   (org-export-add-to-stack (current-buffer) 'bbcode)))
-       `(org-export-as 'bbcode ,subtreep ,visible-only ,body-only
-		       ',ext-plist))
+          (lambda (output)
+            (with-current-buffer (get-buffer-create "*Org BBCODE Export*")
+              (erase-buffer)
+              (insert output)
+              (goto-char (point-min))
+              (text-mode)
+              (org-export-add-to-stack (current-buffer) 'bbcode)))
+        `(org-export-as 'bbcode ,subtreep ,visible-only ,body-only
+                        ',ext-plist))
     (let ((outbuf (org-export-to-buffer
-		   'bbcode "*Org BBCODE Export*"
-		   subtreep visible-only body-only ext-plist)))
+                      'bbcode "*Org BBCODE Export*"
+                    subtreep visible-only body-only ext-plist)))
       (with-current-buffer outbuf (text-mode))
       (when org-export-show-temporary-export-buffer
-	(switch-to-buffer-other-window outbuf)))))
+        (switch-to-buffer-other-window outbuf)))))
 
 ;;;###autoload
 (defun org-bbcode-export-to-bbcode
-  (&optional async subtreep visible-only body-only ext-plist)
+    (&optional async subtreep visible-only body-only ext-plist)
   "Export current buffer to a text file.
 
 If narrowing is active in the current buffer, only export its
@@ -1619,13 +1619,13 @@ Return output file's name."
   (interactive)
   (let ((outfile (org-export-output-file-name ".txt" subtreep)))
     (if async
-	(org-export-async-start
-	 (lambda (f) (org-export-add-to-stack f 'bbcode))
-	 `(expand-file-name
-	   (org-export-to-file
-	    'bbcode ,outfile ,subtreep ,visible-only ,body-only ',ext-plist)))
+        (org-export-async-start
+            (lambda (f) (org-export-add-to-stack f 'bbcode))
+          `(expand-file-name
+            (org-export-to-file
+                'bbcode ,outfile ,subtreep ,visible-only ,body-only ',ext-plist)))
       (org-export-to-file
-       'bbcode outfile subtreep visible-only body-only ext-plist))))
+          'bbcode outfile subtreep visible-only body-only ext-plist))))
 
 ;;;###autoload
 (defun org-bbcode-publish-to-bbcode (plist filename pub-dir)
