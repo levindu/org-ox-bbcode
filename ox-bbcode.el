@@ -611,9 +611,9 @@ INFO is a plist used as a communication channel."
 	   (org-bbcode-center author "\n"))
 	  ((org-string-nw-p email)
 	   (org-bbcode-center email "\n"))
-	  (when (org-string-nw-p date)
-	    (org-bbcode-center date "\n"))
-	  "\n\n"))))))
+	  ((org-string-nw-p date)
+       (org-bbcode-center date "\n"))
+	  (t "\n\n")))))))
 
 (defun org-bbcode-inner-template (contents info)
   "Return body of document string after BBCODE conversion.
